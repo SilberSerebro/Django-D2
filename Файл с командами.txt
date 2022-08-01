@@ -1,0 +1,59 @@
+user3=User.objects.create_user(username = 'Sasha')
+user4=User.objects.create_user(username = 'Masha')
+Author.objects.create(authorUser=user3)
+Author.objects.create(authorUser=user4)
+Category.objects.create(name='IT')
+Category.objects.create(name='CITY')
+Category.objects.create(name='Animals')
+Category.objects.create(name='Ecology')
+author1=Author.objects.get(id=1)
+Post.objects.create(author=author1, category_type='AR', title='news from IT', text='new development')
+author2=Author.objects.get(id=2)
+Post.objects.create(author=author2, category_type='AR', title='news from City', text='once in the city')
+Post.objects.create(author=author1, category_type='NW', title='news from Ecology', text='changes in the law')
+Post.objects.get(id=1).postCategory.add(Category.objects.get(id=1))
+Post.objects.get(id=1).postCategory.add(Category.objects.get(id=2))
+Post.objects.get(id=2).postCategory.add(Category.objects.get(id=4))
+Comment.objects.create(commentPost=Post.objects.get(id=1), commentUser=Author.objects.get(id=1).authorUser, textComment='Hello')
+Comment.objects.create(commentPost=Post.objects.get(id=1), commentUser=Author.objects.get(id=2).authorUser, textComment='How are you')
+Comment.objects.create(commentPost=Post.objects.get(id=2), commentUser=Author.objects.get(id=1).authorUser, textComment='Hello world')
+Comment.objects.create(commentPost=Post.objects.get(id=3), commentUser=Author.objects.get(id=1).authorUser, textComment='very interesting')
+Comment.objects.get(id=1).like()
+Comment.objects.get(id=1).like()
+Comment.objects.get(id=1).like()
+Comment.objects.get(id=1).dislike()
+Comment.objects.get(id=2).like()
+Comment.objects.get(id=3).like()
+Comment.objects.get(id=3).like()
+Comment.objects.get(id=3).like()
+Comment.objects.get(id=3).like()
+Comment.objects.get(id=3).dislike()
+Post.objects.get(id=1).like()
+Post.objects.get(id=2).like()
+Post.objects.get(id=3).dislike()
+a = Author.objects.get(id=1)
+a.update_rating()
+a.ratingUser
+b = Author.objects.get(id=2) 
+b.update_rating() 
+b.ratingUser
+c = Author.objects.order_by('-ratingUser')[:1]
+for i in c:
+...     i.ratingUser
+...     i.authorUser.username
+post = Post.objects.order_by('-rating')[:1]
+>>> for i in post:
+...     i.dateCreation
+...     print(i)
+...     i.rating
+...     i.title
+...     i.preview()
+post = Post.objects.order_by('-rating')[:1]
+>>> for i in post:
+...     for k in i.comment_set.all():
+...             k.textComment
+...             k.dateCreation
+...             k.commentUser
+...             k.ratingComment
+... 
+
