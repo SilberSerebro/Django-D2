@@ -23,8 +23,10 @@ class Category(models.Model):
 
     name = models.CharField(max_length=64, unique=True)
 
+    def __str__(self):
+        return f'{self.name}'
 
-p
+
 class Post(models.Model):
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
 
@@ -54,7 +56,7 @@ class Post(models.Model):
         return f'{self.text[0:123]} ...'
 
     def __str__(self):
-        return f'{self.author.authorUser.username}'
+        return f'{self.author.authorUser.username}, {self.title}, {self.text[:20]}, {self.category_type}'
 
 class PostCategory(models.Model):
     postConnected = models.ForeignKey(Post, on_delete=models.CASCADE)
@@ -75,3 +77,4 @@ class Comment(models.Model):
     def dislike(self):
         self.ratingComment -= 1
         self.save()
+
