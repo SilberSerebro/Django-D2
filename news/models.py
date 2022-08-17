@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import Sum
+from django.urls import reverse
+
 
 class Author(models.Model):
     authorUser = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -38,10 +40,10 @@ class Post(models.Model):
     )
     category_type = models.CharField(max_length=2, choices=CATEGORY_CHOICES, default=ARTICLE)
     dateCreation = models.DateTimeField(auto_now_add=True)
-    postCategory = models.ManyToManyField(Category, through='PostCategory')
     title = models.CharField(max_length=128)
     text = models.TextField()
     rating = models.SmallIntegerField(default=0)
+    category = models.ManyToManyField(Category, through='PostCategory', verbose_name='Категория')
 
 
     def like(self):
@@ -57,6 +59,9 @@ class Post(models.Model):
 
     def __str__(self):
         return f'{self.author.authorUser.username}, {self.title}, {self.text[:20]}, {self.category_type}'
+
+    def get_absolute_url(self):
+        return reverse('news', args=[str(self.id)])
 
 class PostCategory(models.Model):
     postConnected = models.ForeignKey(Post, on_delete=models.CASCADE)

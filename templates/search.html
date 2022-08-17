@@ -5,15 +5,13 @@
 
 {% load custom_tags %}
 
-
 {% block title %}
 News
 {% endblock title %}
 
-<!-- В контенте на странице мы выводим все новости -->
-
 {% block content %}
- <h1>Все новости</h1>
+
+<h1>Все новости</h1>
 
     <form action="" method="get">
         {{ filterset.form.as_p }}
@@ -21,22 +19,22 @@ News
     </form>
 
     <h3> Количество новостей {{ news|length }}</h3>
-    <h3>{% my_time '%d %b %Y' %}</h3>
+
     <h3> {{ next_sale|default_if_none:"Самые свежие новости!" }} </h3>
     <hr>
     <!-- Выводим новости, только если они есть с помощью тега if -->
-    {% if news %}
+    {% if news_search %}
         <table>
             <tr>
                 <td> Заголовок </td>
                 <td> Дата публикации </td>
                 <td> Описание </td>
             </tr>
-            {% for newOne in news %}
+            {% for newSearch in news_search %}
             <tr>
-                <td>{{ newOne.title|censor }}</td>
-                <td>{{ newOne.dateCreation|date:'d M Y' }}</td>
-                <td>{{ newOne.text|truncatechars:20|censor }}</td>
+                <td>{{ newSearch.title|censor }}</td>
+                <td>{{ newSearch.dateCreation|date:'d M Y' }}</td>
+                <td>{{ newSearch.text|truncatechars:20|censor }}</td>
 
             </tr>
             {% endfor %}

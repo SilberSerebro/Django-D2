@@ -41,6 +41,9 @@ INSTALLED_APPS = [
     'news',
     'django.contrib.sites',
     'django.contrib.flatpages',
+    'django_filters',
+    'sign',
+    'protect',
 ]
 
 MIDDLEWARE = [
@@ -133,3 +136,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STATICFILES_DIRS = [
     BASE_DIR / "static"
 ]
+
+LOGIN_URL = 'sign/login/'
+LOGIN_REDIRECT_URL = '/'
