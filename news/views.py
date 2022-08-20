@@ -1,8 +1,9 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.models import User
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.urls import reverse_lazy
+
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Post
 from datetime import datetime
@@ -31,6 +32,9 @@ class News(ListView):
 
     def get_filter(self):
         return PostFilter(self.request.GET, queryset=super().get_queryset())
+
+    def get_absolute_url(self):
+        return f'/{self.pk}/'
 
 
 class NewsDetail(DetailView):
@@ -61,16 +65,22 @@ class NewsSearch(ListView):
         context['filterset'] = self.filterset
         return context
 
-class PostCreate(CreateView):
+class PostCreate(PermissionRequiredMixin, CreateView):
     form_class = PostForm
     model = Post
     template_name = 'post_edit.html'
+    permission_required = ('news.add_post',
+                           'news.change_post')
 
 
-class PostEdit(UpdateView):
+
+
+class PostEdit(PermissionRequiredMixin, UpdateView):
     form_class = PostForm
     model = Post
     template_name = 'post_edit.html'
+    permission_required = ('news.add_post',
+                           'news.change_post')
 
 class PostDelete(DeleteView):
     model = Post
@@ -83,3 +93,6 @@ class ProfileUserEdit(LoginRequiredMixin, UpdateView):
     model = User
     template_name = 'profile_edit.html'
     success_url = reverse_lazy('news_page')
+
+
+

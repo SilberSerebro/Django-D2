@@ -28,12 +28,14 @@ News
     {% if news %}
         <table>
             <tr>
+                <td> Ссылка на новость </td>
                 <td> Заголовок </td>
                 <td> Дата публикации </td>
                 <td> Описание </td>
             </tr>
             {% for newOne in news %}
             <tr>
+                <td><a href="{{newOne.get_absolute_url}}" > читать </a></td>
                 <td>{{ newOne.title|censor }}</td>
                 <td>{{ newOne.dateCreation|date:'d M Y' }}</td>
                 <td>{{ newOne.text|truncatechars:20|censor }}</td>
